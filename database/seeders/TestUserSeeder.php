@@ -16,7 +16,7 @@ class TestUserSeeder extends Seeder
      */
     public function run()
     {
-        if(env('APP_ENV') !== 'production'){
+        if(env('APP_ENV') !== 'production' && User::where('email', 'user@test.com')->count() <= 0){
             User::factory(1)->create(
                 [
                     'name' => 'Test User',
