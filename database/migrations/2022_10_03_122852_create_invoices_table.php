@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('due_at')->nullable();
             $table->string('item')->nullable();
             $table->decimal('price', 10, 2)->nullable();
-            $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('customer_id')->nullable()->constrained()->cascadeOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
