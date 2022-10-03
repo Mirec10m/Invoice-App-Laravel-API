@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('business_id'); // Business ID - IČO
+            $table->string('business_id')->unique(); // Business ID - IČO
             $table->string('tax_id'); // Tax ID - DIČ
-            $table->string('vat_number'); // VAT registration number - IČ DPH
+            $table->string('vat_number')->nullable(); // VAT registration number - IČ DPH
             $table->string('street');
             $table->string('city');
             $table->string('postal_code');
