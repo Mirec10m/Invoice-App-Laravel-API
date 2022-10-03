@@ -13,6 +13,8 @@ class UpdateInvoiceRequest extends CreateInvoiceRequest
     {
         $rules = parent::rules();
 
+        $rules['number'] = str_replace('required', 'nullable', $rules['number']);
+
         return $rules;
     }
 }
