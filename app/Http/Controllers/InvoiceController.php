@@ -20,7 +20,7 @@ class InvoiceController extends Controller
 
     public function index()
     {
-        $invoices = Invoice::where('user_id', Auth::user()->id)->with('customer')->paginate(20);
+        $invoices = Invoice::where('user_id', Auth::user()->id)->with(['user', 'customer'])->paginate(20);
 
         return InvoiceResource::collection($invoices);
     }
@@ -37,12 +37,12 @@ class InvoiceController extends Controller
             $customer->invoices()->save($invoice);
         }
 
-        return response(new InvoiceResource($invoice->load('customer')), Response::HTTP_CREATED);
+        return response(new InvoiceResource($invoice->load(['user', 'customer'])), Response::HTTP_CREATED);
     }
 
     public function show(Invoice $invoice)
     {
-        return new InvoiceResource($invoice->load('customer'));
+        return new InvoiceResource($invoice->load(['user', 'customer']));
     }
 
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
@@ -54,7 +54,7 @@ class InvoiceController extends Controller
 
         $invoice->update($request->validated());
 
-        return response(new InvoiceResource($invoice), Response::HTTP_ACCEPTED);
+        return response(new InvoiceResource($invoice->load(['user', 'customer'])), Response::HTTP_ACCEPTED);
     }
 
     public function destroy(Invoice $invoice)

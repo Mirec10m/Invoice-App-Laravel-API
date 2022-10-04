@@ -23,7 +23,7 @@ class InvoiceResource extends JsonResource
             'item' => $this->item,
             'price' => $this->price,
             'formatted_price' => $this->price ? number_format($this->price, 2, ',', ' ') : null,
-            'user' => $this->user,
+            'user' => new UserResource($this->whenLoaded('user')),
             'customer' => new CustomerResource($this->whenLoaded('customer'))
         ];
     }
