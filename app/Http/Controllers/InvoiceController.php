@@ -8,14 +8,18 @@ use App\Http\Resources\InvoiceResource;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\User;
+use App\Services\InvoiceService;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class InvoiceController extends Controller
 {
-    public function __construct()
+    protected $invoiceService;
+
+    public function __construct(InvoiceService $invoiceService)
     {
         $this->authorizeResource(Invoice::class, 'invoice');
+        $this->invoiceService = $invoiceService;
     }
 
     public function index()
@@ -29,13 +33,8 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::create($request->validated());
 
-        $user = User::findOrFail(Auth::user()->id);
-        $user->invoices()->save($invoice);
-
-        if($id = $request->customer_id){
-            $customer = Customer::findOrFail($id);
-            $customer->invoices()->save($invoice);
-        }
+        $this->invoiceService->assign_to_current_user($invoice);
+        $this->invoiceService->assign_to_customer($invoice, $request);
 
         return response(new InvoiceResource($invoice->load(['user', 'customer'])), Response::HTTP_CREATED);
     }
@@ -47,10 +46,7 @@ class InvoiceController extends Controller
 
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
     {
-        if($id = $request->customer_id){
-            $customer = Customer::findOrFail($id);
-            $customer->invoices()->save($invoice);
-        }
+        $this->invoiceService->assign_to_customer($invoice, $request);
 
         $invoice->update($request->validated());
 
