@@ -12,15 +12,13 @@ class InvoiceService
 {
     public function assign_to_current_user(Invoice $invoice)
     {
-        $user = User::findOrFail(Auth::user()->id);
-        $user->invoices()->save($invoice);
+        $invoice->user()->associate(Auth::user()->id)->save();
     }
 
     public function assign_to_customer(Invoice $invoice, Request $request)
     {
         if($id = $request->customer_id){
-            $customer = Customer::findOrFail($id);
-            $customer->invoices()->save($invoice);
+            $invoice->customer()->associate($id)->save();
         }
     }
 }

@@ -46,9 +46,9 @@ class InvoiceController extends Controller
 
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
     {
-        $this->invoiceService->assign_to_customer($invoice, $request);
-
         $invoice->update($request->validated());
+
+        $this->invoiceService->assign_to_customer($invoice, $request);
 
         return response(new InvoiceResource($invoice->load(['user', 'customer'])), Response::HTTP_ACCEPTED);
     }
