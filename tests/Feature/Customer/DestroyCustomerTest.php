@@ -18,6 +18,7 @@ class DestroyCustomerTest extends TestCase
         $this->actingAs($user);
 
         $customer = Customer::factory()->create();
+        $customer->user()->associate($user)->save();
 
         $response = $this->delete('/api/customers/' . $customer->id);
 

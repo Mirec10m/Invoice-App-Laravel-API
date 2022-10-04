@@ -15,8 +15,11 @@ class ListCustomerTest extends TestCase
 
     public function test_customers_can_be_listed()
     {
-        $this->actingAs(User::factory()->create());
-        Customer::factory(40)->create();
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $customers = Customer::factory(40)->create();
+        $user->customers()->saveMany($customers);
 
         $response = $this->get('/api/customers');
 
@@ -29,5 +32,24 @@ class ListCustomerTest extends TestCase
             ]
         ]);
         $response->assertJsonCount(20, 'data');
+    }
+
+    public function test_current_user_can_retrieve_only_his_customers()
+    {
+        $user = User::factory()->create();
+        $customers = Customer::factory(10)->create();
+        $user->customers()->saveMany($customers);
+
+        $another_user = User::factory()->create();
+        $another_customers = Customer::factory(10)->create();
+        $another_user->customers()->saveMany($another_customers);
+
+        $this->actingAs($user);
+
+        $response = $this->get('/api/customers');
+
+        $this->assertDatabaseCount('customers', 20);
+        $response->assertJsonCount(10, 'data');
+        $response->assertStatus(200);
     }
 }

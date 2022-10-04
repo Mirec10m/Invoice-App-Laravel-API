@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('country');
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
     }

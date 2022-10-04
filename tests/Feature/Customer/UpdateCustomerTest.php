@@ -18,6 +18,7 @@ class UpdateCustomerTest extends TestCase
         $this->actingAs($user);
 
         $customer = Customer::factory()->create(['city' => 'Nitra']);
+        $customer->user()->associate($user)->save();
 
         $data = [
             'city' => 'Bratislava'
