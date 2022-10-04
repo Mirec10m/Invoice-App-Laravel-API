@@ -18,6 +18,7 @@ class UpdateInvoiceTest extends TestCase
         $this->actingAs($user);
 
         $invoice = Invoice::factory()->create(['item' => 'Original text']);
+        $invoice->user()->associate($user)->save();
 
         $data = [
             'item' => 'New text'
@@ -27,5 +28,21 @@ class UpdateInvoiceTest extends TestCase
 
         $response->assertStatus(202);
         $response->assertJson(['item' => 'New text']);
+    }
+
+    public function test_access_denied_if_invoice_does_not_belong_to_current_user()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $invoice = Invoice::factory()->create(['item' => 'Original text']);
+
+        $data = [
+            'item' => 'New text'
+        ];
+
+        $response = $this->put('/api/invoices/' . $invoice->id, $data);
+
+        $response->assertStatus(404);
     }
 }

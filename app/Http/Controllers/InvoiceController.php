@@ -13,6 +13,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class InvoiceController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Invoice::class, 'invoice');
+    }
+
     public function index()
     {
         $invoices = Invoice::where('user_id', Auth::user()->id)->with('customer')->paginate(20);
@@ -35,15 +40,13 @@ class InvoiceController extends Controller
         return response(new InvoiceResource($invoice->load('customer')), Response::HTTP_CREATED);
     }
 
-    public function show($id)
+    public function show(Invoice $invoice)
     {
-        return new InvoiceResource(Invoice::with('customer')->findOrFail($id));
+        return new InvoiceResource($invoice->load('customer'));
     }
 
-    public function update(UpdateInvoiceRequest $request, $id)
+    public function update(UpdateInvoiceRequest $request, Invoice $invoice)
     {
-        $invoice = Invoice::findOrFail($id);
-
         if($id = $request->customer_id){
             $customer = Customer::findOrFail($id);
             $customer->invoices()->save($invoice);
@@ -54,9 +57,9 @@ class InvoiceController extends Controller
         return response(new InvoiceResource($invoice), Response::HTTP_ACCEPTED);
     }
 
-    public function destroy($id)
+    public function destroy(Invoice $invoice)
     {
-        Invoice::destroy($id);
+        $invoice->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
