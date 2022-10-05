@@ -12,6 +12,8 @@ jobs:
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: 1
           MYSQL_DATABASE: test
+          MYSQL_USER: test
+          MYSQL_PASSWORD: test
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -37,7 +39,9 @@ jobs:
     - name: Execute tests via PHPUnit
       env:
         DB_CONNECTION: mysql
-        DB_HOST: mysql
+        DB_HOST: 127.0.0.1
         DB_PORT: 3306
         DB_DATABASE: test
+        DB_USERNAME: test
+        DB_PASSWORD: test
       run: vendor/bin/phpunit tests/
