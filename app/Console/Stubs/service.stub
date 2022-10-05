@@ -1,0 +1,11 @@
+<?php
+
+namespace App\Services;
+
+class ClassName
+{
+    public function handle()
+    {
+        // replace with controller business logic
+    }
+}

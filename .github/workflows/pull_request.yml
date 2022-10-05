@@ -1,7 +1,10 @@
-name: Push
+name: Pull Request
 
 on:
-  push
+  pull_request:
+    branches:
+      - master
+      - develop
 
 jobs:
   laravel-tests:
