@@ -18,7 +18,7 @@ class CustomerController extends Controller
 
     public function index()
     {
-        $customers = Customer::where('user_id', Auth::user()->id)->paginate(20);
+        $customers = Customer::where('user_id', Auth::user()->id)->orderByDesc('created_at')->paginate(20);
 
         return CustomerResource::collection($customers);
     }
