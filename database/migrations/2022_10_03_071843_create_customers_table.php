@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('business_id')->unique(); // Business ID - IČO
             $table->string('tax_id'); // Tax ID - DIČ
-            $table->string('vat_number')->nullable(); // VAT registration number - IČ DPH
-            $table->string('street');
+            $table->string('vat_id')->nullable(); // VAT registration number - IČ DPH
+            $table->string('address');
             $table->string('city');
             $table->string('postal_code');
             $table->string('country');
