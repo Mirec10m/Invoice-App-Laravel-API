@@ -15,6 +15,16 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'company_name',
+        'company_address',
+        'company_postal_code',
+        'company_city',
+        'company_country',
+        'business_id',
+        'tax_id',
+        'vat_id',
+        'vat',
+        'iban'
     ];
 
     protected $hidden = [
