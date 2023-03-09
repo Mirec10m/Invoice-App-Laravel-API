@@ -24,7 +24,8 @@ class InvoiceResource extends JsonResource
             'price' => $this->price,
             'formatted_price' => $this->price ? number_format($this->price, 2, ',', ' ') : null,
             'user' => new UserResource($this->whenLoaded('user')),
-            'customer' => new CustomerResource($this->whenLoaded('customer'))
+            'customer' => new CustomerResource($this->whenLoaded('customer')),
+            'created_at' => Carbon::parse($this->created_at)->format('d. m. Y')
         ];
     }
 }
