@@ -15,6 +15,7 @@ class UpdateCustomerRequest extends CreateCustomerRequest
 
         $rules['name'] = str_replace('required', 'nullable', $rules['name']);
         $rules['business_id'] = str_replace('required', 'nullable', $rules['business_id']);
+        $rules['business_id'] = str_replace('unique:customers,business_id', '', $rules['business_id']);
         $rules['tax_id'] = str_replace('required', 'nullable', $rules['tax_id']);
         $rules['address'] = str_replace('required', 'nullable', $rules['address']);
         $rules['city'] = str_replace('required', 'nullable', $rules['city']);
