@@ -9,6 +9,8 @@ class AuthController extends Controller
 {
     public function user()
     {
-        return response(new UserResource(auth()->user()), Response::HTTP_CREATED);
+        $response = auth()->hasUser() ? new UserResource(auth()->user()) : null;
+
+        return response($response, Response::HTTP_CREATED);
     }
 }
