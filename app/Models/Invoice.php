@@ -12,9 +12,14 @@ class Invoice extends Model
     protected $fillable = [
         'number',
         'variable_symbol',
+        'issued_at',
+        'delivered_at',
         'due_at',
         'item',
-        'price'
+        'quantity',
+        'unit',
+        'price',
+        'sum'
     ];
 
     public function user()
