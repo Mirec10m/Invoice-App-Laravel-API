@@ -23,8 +23,10 @@ class CreateInvoiceRequest extends FormRequest
      */
     public function rules()
     {
+        $invoice = $this->route('invoice');
+
         return [
-            'number' => 'required|digits_between:5,20|unique:invoices,number',
+            'number' => "required|digits_between:5,20|unique:invoices,number,$invoice?->id",
             'variable_symbol' => 'nullable|numeric|min:6',
             'issued_at' => 'nullable|date_format:Y-m-d',
             'delivered_at' => 'nullable|date_format:Y-m-d',
