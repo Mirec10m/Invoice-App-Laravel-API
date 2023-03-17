@@ -21,6 +21,7 @@ class UpdateInvoiceTest extends TestCase
         $invoice->user()->associate($user)->save();
 
         $data = [
+            'number' => $invoice->number,
             'item' => 'New text'
         ];
 
