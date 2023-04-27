@@ -7,6 +7,7 @@ use App\Http\Requests\Invoice\UpdateInvoiceRequest;
 use App\Http\Resources\InvoiceResource;
 use App\Models\Invoice;
 use App\Services\InvoiceService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -70,5 +71,12 @@ class InvoiceController extends Controller
         $sum = Invoice::all()->sum('sum');
 
         return response($sum, Response::HTTP_OK);
+    }
+
+    public function invoices_pdf(Invoice $invoice)
+    {
+        $pdf = Pdf::loadView('pdf.invoice', ['invoice' => $invoice->load('customer')]);
+
+        return $pdf->download();
     }
 }
