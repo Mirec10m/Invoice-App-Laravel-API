@@ -18,8 +18,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/user', [AuthController::class, 'user']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    //Route::get('/user', [AuthController::class, 'user']);
 
+    // Customers
     Route::apiResource('/customers', CustomerController::class);
+
+    // Invoices
     Route::apiResource('/invoices', InvoiceController::class);
+    Route::get('/last-invoice', [InvoiceController::class, 'last_invoice']);
+    Route::get('/invoices-sum', [InvoiceController::class, 'invoices_sum']);
 });

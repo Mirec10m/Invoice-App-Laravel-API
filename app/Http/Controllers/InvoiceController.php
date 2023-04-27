@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Invoice\CreateInvoiceRequest;
 use App\Http\Requests\Invoice\UpdateInvoiceRequest;
 use App\Http\Resources\InvoiceResource;
-use App\Models\Customer;
 use App\Models\Invoice;
-use App\Models\User;
 use App\Services\InvoiceService;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -58,5 +56,19 @@ class InvoiceController extends Controller
         $invoice->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function last_invoice()
+    {
+        $invoice = Invoice::all()->last();
+
+        return new InvoiceResource($invoice);
+    }
+
+    public function invoices_sum()
+    {
+        $sum = Invoice::all()->sum('sum');
+
+        return response($sum, Response::HTTP_OK);
     }
 }
