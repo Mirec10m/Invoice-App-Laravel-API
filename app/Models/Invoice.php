@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Invoice extends Model
+class Invoice extends BaseModel
 {
     use HasFactory;
 
@@ -30,5 +30,30 @@ class Invoice extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function getFormattedIssuedAtAttribute()
+    {
+        return $this->format_date($this->issued_at);
+    }
+
+    public function getFormattedDeliveredAtAttribute()
+    {
+        return $this->format_date($this->delivered_at);
+    }
+
+    public function getFormattedDueAtAttribute()
+    {
+        return $this->format_date($this->due_at);
+    }
+
+    public function getFormattedPriceAttribute()
+    {
+        return $this->format_price($this->price);
+    }
+
+    public function getFormattedSumAttribute()
+    {
+        return $this->format_price($this->sum);
     }
 }

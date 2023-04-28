@@ -20,21 +20,22 @@ class InvoiceResource extends JsonResource
             'number' => $this->number,
             'variable_symbol' => $this->variable_symbol,
             'issued_at' => $this->issued_at,
-            'formatted_issued_at' => Carbon::parse($this->issued_at)->format('d. m. Y'),
+            'formatted_issued_at' => $this->formatted_issued_at,
             'delivered_at' => $this->delivered_at,
-            'formatted_delivered_at' => Carbon::parse($this->delivered_at)->format('d. m. Y'),
+            'formatted_delivered_at' => $this->formatted_delivered_at,
             'due_at' => $this->due_at,
-            'formatted_due_at' => Carbon::parse($this->due_at)->format('d. m. Y'),
+            'formatted_due_at' => $this->formatted_due_at,
             'item' => $this->item,
             'quantity' => $this->quantity,
             'unit' => $this->unit,
             'price' => $this->price,
-            'formatted_price' => $this->price ? number_format($this->price, 2, ',', ' ') : null,
+            'formatted_price' => $this->formatted_price,
             'sum' => $this->sum,
-            'formatted_sum' => $this->sum ? number_format($this->sum, 2, ',', ' ') : null,
+            'formatted_sum' => $this->formatted_sum,
             'user' => new UserResource($this->whenLoaded('user')),
             'customer' => new CustomerResource($this->whenLoaded('customer')),
-            'created_at' => Carbon::parse($this->created_at)->format('d. m. Y')
+            'created_at' => $this->created_at,
+            'formatted_created_at' => $this->formatted_created_at
         ];
     }
 }
