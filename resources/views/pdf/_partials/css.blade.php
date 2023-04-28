@@ -11,7 +11,6 @@
     }
     @page{
         width: 100%;
-
         padding: 40px;
     }
     body{
@@ -57,6 +56,14 @@
     .width-50{
         width: 50%;
     }
+    .text-right{
+        text-align: right;
+    }
+    .img-responsive{
+        display: block;
+        width: 100%;
+        height: auto;
+    }
 
     .logo{
         width: 30%;
@@ -64,6 +71,8 @@
     .invoice-number{
         text-align: right;
         text-transform: uppercase;
+        font-weight: 700;
+        font-size: 1.5em;
     }
 
     .owner{
@@ -99,5 +108,42 @@
     }
     .qr{
         padding: 10px;
+    }
+
+    .items > .table-header > .table-cell{
+        padding: 4px 10px;
+        background: #0095da !important;
+        color: white;
+        text-transform: uppercase;
+        font-weight: 700;
+        border-left: 0.1px solid white;
+        border-right: 0.1px solid white;
+    }
+    .items > .table-content > .table-cell{
+        padding: 4px 10px;
+    }
+    .items > .table-row > .table-cell:first-child{
+        width: 20px;
+    }
+
+    .sum > .table-header > .table-cell{
+        padding: 4px 10px;
+        background: #0095da !important;
+        color: white;
+        font-weight: 700;
+        font-size: 1.3em;
+        border-left: 0.1px solid white;
+        border-right: 0.1px solid white;
+    }
+
+    .signature{
+        margin-top: 160px;
+        margin-right: 100px;
+        margin-left: auto;
+        width: 160px;
+        border-top: 1px solid black;
+        padding: 5px 0;
+        text-align: center;
+        font-size: 12px;
     }
 </style>

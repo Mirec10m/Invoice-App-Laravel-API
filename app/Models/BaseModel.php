@@ -9,12 +9,12 @@ class BaseModel extends Model
 {
     public function getFormattedCreatedAtAttribute()
     {
-        return $this->format_date_time($this->created_at);
+        return $this->format_date($this->created_at);
     }
 
     public function getFormattedUpdatedAtAttribute()
     {
-        return $this->format_date_time($this->created_at);
+        return $this->format_date($this->created_at);
     }
 
     protected function format_price($price)
@@ -24,11 +24,11 @@ class BaseModel extends Model
 
     protected function format_date($date)
     {
-        return $date ? Carbon::parse($date)->format('d.m.Y') : null;
+        return $date ? Carbon::parse($date)->format('d. m. Y') : null;
     }
 
     protected function format_date_time($date)
     {
-        return $date ? Carbon::parse($date)->format('d.m.Y H:i:s') : null;
+        return $date ? Carbon::parse($date)->format('d. m. Y H:i:s') : null;
     }
 }
