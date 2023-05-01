@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\InvoiceActionController;
 use App\Http\Controllers\InvoiceController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +25,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Invoices
     Route::apiResource('/invoices', InvoiceController::class);
-    Route::get('/last-invoice', [InvoiceController::class, 'last_invoice']);
-    Route::get('/invoices-sum', [InvoiceController::class, 'invoices_sum']);
-    Route::get('/invoices/pdf/{invoice}', [InvoiceController::class, 'invoices_pdf']);
+
+    Route::get('/last-invoice', [InvoiceActionController::class, 'last_invoice']);
+    Route::get('/invoices-sum', [InvoiceActionController::class, 'invoices_sum']);
+    Route::get('/invoices/pdf/{invoice}', [InvoiceActionController::class, 'invoices_pdf']);
 });

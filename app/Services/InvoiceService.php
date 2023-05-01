@@ -21,4 +21,19 @@ class InvoiceService
             $invoice->customer()->associate($id)->save();
         }
     }
+
+    public function filter_by_number_or_sum_or_customer(Request $request, $invoices)
+    {
+        if($filter = $request->input('filter')){
+            $invoices = $invoices->where(function($q) use ($filter){
+                $q->where('number', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('sum', 'LIKE', '%' . $filter . '%')
+                    ->orWhereHas('customer', function($q) use ($filter) {
+                        $q->where('name', 'LIKE', '%' . $filter . '%');
+                    });
+            });
+        }
+
+        return $invoices;
+    }
 }

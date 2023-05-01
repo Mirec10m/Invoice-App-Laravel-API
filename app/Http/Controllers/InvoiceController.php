@@ -25,15 +25,7 @@ class InvoiceController extends Controller
     {
         $invoices = Invoice::where('user_id', Auth::user()->id)->with(['user', 'customer']);
 
-        if($filter = request()->input('filter')){
-            $invoices = $invoices->where(function($q) use ($filter){
-                $q->where('number', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('sum', 'LIKE', '%' . $filter . '%')
-                    ->orWhereHas('customer', function($q) use ($filter) {
-                        $q->where('name', 'LIKE', '%' . $filter . '%');
-                    });
-            });
-        }
+        $invoices = $this->invoiceService->filter_by_number_or_sum_or_customer(request(), $invoices);
 
         $invoices = $invoices->paginate(20);
 
@@ -69,38 +61,5 @@ class InvoiceController extends Controller
         $invoice->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-    }
-
-    public function last_invoice()
-    {
-        $invoice = Invoice::all()->last();
-
-        return new InvoiceResource($invoice);
-    }
-
-    public function invoices_sum()
-    {
-        $invoices = Invoice::where('user_id', Auth::user()->id)->with(['customer']);
-
-        if($filter = request()->input('filter')){
-            $invoices = $invoices->where(function($q) use ($filter){
-                $q->where('number', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('sum', 'LIKE', '%' . $filter . '%')
-                    ->orWhereHas('customer', function($q) use ($filter) {
-                        $q->where('name', 'LIKE', '%' . $filter . '%');
-                    });
-            });
-        }
-
-        $sum = $invoices->sum('sum');
-
-        return response($sum, Response::HTTP_OK);
-    }
-
-    public function invoices_pdf(Invoice $invoice)
-    {
-        $pdf = Pdf::loadView('pdf.invoice', ['invoice' => $invoice->load('customer')]);
-
-        return $pdf->download();
     }
 }
