@@ -80,7 +80,19 @@ class InvoiceController extends Controller
 
     public function invoices_sum()
     {
-        $sum = Invoice::all()->sum('sum');
+        $invoices = Invoice::where('user_id', Auth::user()->id)->with(['customer']);
+
+        if($filter = request()->input('filter')){
+            $invoices = $invoices->where(function($q) use ($filter){
+                $q->where('number', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('sum', 'LIKE', '%' . $filter . '%')
+                    ->orWhereHas('customer', function($q) use ($filter) {
+                        $q->where('name', 'LIKE', '%' . $filter . '%');
+                    });
+            });
+        }
+
+        $sum = $invoices->sum('sum');
 
         return response($sum, Response::HTTP_OK);
     }
