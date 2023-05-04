@@ -6,7 +6,6 @@ use App\Http\Resources\InvoiceResource;
 use App\Models\Invoice;
 use App\Services\InvoiceService;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,7 +21,7 @@ class InvoiceActionController extends Controller
 
     public function last_invoice()
     {
-        $invoice = Invoice::all()->last();
+        $invoice = Invoice::where('user_id', Auth::user()->id)->last();
 
         return new InvoiceResource($invoice);
     }

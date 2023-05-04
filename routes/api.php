@@ -26,7 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Invoices
     Route::apiResource('/invoices', InvoiceController::class);
 
-    Route::get('/last-invoice', [InvoiceActionController::class, 'last_invoice']);
-    Route::get('/invoices-sum', [InvoiceActionController::class, 'invoices_sum']);
+    Route::get('/invoices/get/last', [InvoiceActionController::class, 'last_invoice']);
+    Route::get('/invoices/get/sum', [InvoiceActionController::class, 'invoices_sum']);
     Route::get('/invoices/pdf/{invoice}', [InvoiceActionController::class, 'invoices_pdf']);
 });

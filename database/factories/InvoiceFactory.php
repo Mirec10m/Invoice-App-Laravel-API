@@ -22,7 +22,8 @@ class InvoiceFactory extends Factory
             'variable_symbol' => $number,
             'due_at' => Carbon::now()->format('Y-m-d'),
             'item' => $this->faker->text(40),
-            'price' => $this->faker->numberBetween(10, 1000)
+            'price' => $this->faker->numberBetween(10, 1000),
+            'sum' => $this->faker->numberBetween(10, 1000)
         ];
     }
 }
