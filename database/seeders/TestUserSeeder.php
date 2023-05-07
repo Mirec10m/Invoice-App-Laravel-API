@@ -22,14 +22,14 @@ class TestUserSeeder extends Seeder
                     'name' => 'Test User',
                     'email' => 'user@test.com',
                     'password' => Hash::make('secret'),
-                    'company_name' => 'DeMi Studio, s. r. o.',
-                    'company_address' => 'Lomnická 26',
-                    'company_postal_code' => '949 01',
-                    'company_city' => 'Nitra',
+                    'company_name' => 'Example company, s. r. o.',
+                    'company_address' => 'Address 17',
+                    'company_postal_code' => '001 01',
+                    'company_city' => 'Bratislava',
                     'company_country' => 'Slovensko',
-                    'business_id' => '51 037 483',
-                    'tax_id' => '2120 569 319',
-                    'iban' => 'SK02 1100 0000 0029 4904 3065'
+                    'business_id' => '12 345 789',
+                    'tax_id' => '2222 111 333',
+                    'iban' => 'SK00 0000 0000 0000 0000 0000'
                 ]
             );
         }
