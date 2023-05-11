@@ -21,9 +21,11 @@ class InvoiceActionController extends Controller
 
     public function last_invoice()
     {
-        $invoice = Invoice::where('user_id', Auth::user()->id)->last();
+        $invoice = Invoice::where('user_id', Auth::user()->id)->get()->last();
 
-        return new InvoiceResource($invoice);
+        return $invoice
+            ? response(new InvoiceResource($invoice), Response::HTTP_OK)
+            : response(null, Response::HTTP_NO_CONTENT);
     }
 
     public function invoices_sum()
