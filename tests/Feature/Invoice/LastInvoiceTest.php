@@ -34,6 +34,6 @@ class LastInvoiceTest extends TestCase
 
         $response = $this->get('/api/invoices/get/last');
 
-        $response->assertNoContent();
+        $this->assertEmpty($response->getContent());
     }
 }

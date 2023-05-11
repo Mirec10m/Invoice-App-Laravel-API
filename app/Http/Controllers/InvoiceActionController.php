@@ -25,7 +25,7 @@ class InvoiceActionController extends Controller
 
         return $invoice
             ? response(new InvoiceResource($invoice), Response::HTTP_OK)
-            : response(null, Response::HTTP_NO_CONTENT);
+            : response(null, Response::HTTP_OK);
     }
 
     public function invoices_sum()
