@@ -12,15 +12,15 @@ class CustomerResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id' => $this->id,
             'name' => $this->name,
             'business_id' => $this->business_id,
             'tax_id' => $this->tax_id,
-            'vat_number' => $this->vat_number,
-            'street' => $this->street,
+            'vat_id' => $this->vat_id,
+            'address' => $this->address,
             'city' => $this->city,
             'postal_code' => $this->postal_code,
             'country' => $this->country,

@@ -11,7 +11,7 @@ class CreateCustomerRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,14 +21,14 @@ class CreateCustomerRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => 'required|string|max:255',
             'business_id' => 'required|digits:8|unique:customers,business_id',
             'tax_id' => 'required|string|max:255',
-            'vat_number' => 'nullable|string|max:255',
-            'street' => 'required|string|max:255',
+            'vat_id' => 'nullable|string|max:255',
+            'address' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'postal_code' => 'required|string|max:255',
             'country' => 'required|string|max:255',

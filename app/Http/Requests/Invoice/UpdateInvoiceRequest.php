@@ -9,11 +9,9 @@ class UpdateInvoiceRequest extends CreateInvoiceRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         $rules = parent::rules();
-
-        $rules['number'] = str_replace('required', 'nullable', $rules['number']);
 
         return $rules;
     }

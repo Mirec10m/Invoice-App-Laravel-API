@@ -18,7 +18,7 @@ class InvoicePolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
         return $user->id === Auth::user()->id;
     }
@@ -30,7 +30,7 @@ class InvoicePolicy
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Invoice $invoice)
+    public function view(User $user, Invoice $invoice): Response
     {
         return $user->id === $invoice->user_id ? Response::allow() : Response::denyAsNotFound();
     }
@@ -41,7 +41,7 @@ class InvoicePolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->id === Auth::user()->id;
     }
@@ -53,7 +53,7 @@ class InvoicePolicy
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Invoice $invoice)
+    public function update(User $user, Invoice $invoice): Response
     {
         return $user->id === $invoice->user_id ? Response::allow() : Response::denyAsNotFound();
     }
@@ -65,7 +65,7 @@ class InvoicePolicy
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Invoice $invoice)
+    public function delete(User $user, Invoice $invoice): Response
     {
         return $user->id === $invoice->user_id ? Response::allow() : Response::denyAsNotFound();
     }

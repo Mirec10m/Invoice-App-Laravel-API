@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Invoice\CreateInvoiceRequest;
 use App\Http\Requests\Invoice\UpdateInvoiceRequest;
 use App\Http\Resources\InvoiceResource;
-use App\Models\Customer;
 use App\Models\Invoice;
-use App\Models\User;
 use App\Services\InvoiceService;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,14 +22,18 @@ class InvoiceController extends Controller
         $this->invoiceService = $invoiceService;
     }
 
-    public function index()
+    public function index(): ResourceCollection
     {
-        $invoices = Invoice::where('user_id', Auth::user()->id)->with(['user', 'customer'])->paginate(20);
+        $invoices = Invoice::where('user_id', Auth::user()->id)->with(['user', 'customer']);
+
+        $invoices = $this->invoiceService->filter_by_number_or_sum_or_customer(request(), $invoices);
+
+        $invoices = $invoices->paginate(20);
 
         return InvoiceResource::collection($invoices);
     }
 
-    public function store(CreateInvoiceRequest $request)
+    public function store(CreateInvoiceRequest $request): Response
     {
         $invoice = Invoice::create($request->validated());
 
@@ -39,12 +43,12 @@ class InvoiceController extends Controller
         return response(new InvoiceResource($invoice->load(['user', 'customer'])), Response::HTTP_CREATED);
     }
 
-    public function show(Invoice $invoice)
+    public function show(Invoice $invoice): InvoiceResource
     {
         return new InvoiceResource($invoice->load(['user', 'customer']));
     }
 
-    public function update(UpdateInvoiceRequest $request, Invoice $invoice)
+    public function update(UpdateInvoiceRequest $request, Invoice $invoice): Response
     {
         $invoice->update($request->validated());
 
@@ -53,7 +57,7 @@ class InvoiceController extends Controller
         return response(new InvoiceResource($invoice->load(['user', 'customer'])), Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(Invoice $invoice)
+    public function destroy(Invoice $invoice): Response
     {
         $invoice->delete();
 

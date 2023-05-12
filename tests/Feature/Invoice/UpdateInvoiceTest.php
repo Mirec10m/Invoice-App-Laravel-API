@@ -5,7 +5,6 @@ namespace Tests\Feature\Invoice;
 use App\Models\Invoice;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class UpdateInvoiceTest extends TestCase
@@ -21,6 +20,7 @@ class UpdateInvoiceTest extends TestCase
         $invoice->user()->associate($user)->save();
 
         $data = [
+            'number' => $invoice->number,
             'item' => 'New text'
         ];
 

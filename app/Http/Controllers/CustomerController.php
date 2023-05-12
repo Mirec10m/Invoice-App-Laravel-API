@@ -6,6 +6,7 @@ use App\Http\Requests\Customers\CreateCustomerRequest;
 use App\Http\Requests\Customers\UpdateCustomerRequest;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,14 +17,24 @@ class CustomerController extends Controller
         $this->authorizeResource(Customer::class, 'customer');
     }
 
-    public function index()
+    public function index(): ResourceCollection
     {
-        $customers = Customer::where('user_id', Auth::user()->id)->paginate(20);
+        $customers = Customer::where('user_id', Auth::user()->id);
+
+        if($filter = request()->input('filter')){
+            $customers = $customers->where(function($q) use ($filter){
+                $q->where('name', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('city', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('address', 'LIKE', '%' . $filter . '%');
+            });
+        }
+
+        $customers = $customers->orderByDesc('created_at')->paginate(20);
 
         return CustomerResource::collection($customers);
     }
 
-    public function store(CreateCustomerRequest $request)
+    public function store(CreateCustomerRequest $request): Response
     {
         $customer = Customer::create($request->validated());
 
@@ -32,19 +43,19 @@ class CustomerController extends Controller
         return response(new CustomerResource($customer), Response::HTTP_CREATED);
     }
 
-    public function show(Customer $customer)
+    public function show(Customer $customer): CustomerResource
     {
         return new CustomerResource($customer);
     }
 
-    public function update(UpdateCustomerRequest $request, Customer $customer)
+    public function update(UpdateCustomerRequest $request, Customer $customer): Response
     {
         $customer->update($request->validated());
 
         return response(new CustomerResource($customer), Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(Customer $customer)
+    public function destroy(Customer $customer): Response
     {
         $customer->delete();
 
