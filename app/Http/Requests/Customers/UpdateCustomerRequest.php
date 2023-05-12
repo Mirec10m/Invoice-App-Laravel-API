@@ -9,7 +9,7 @@ class UpdateCustomerRequest extends CreateCustomerRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         $rules = parent::rules();
 

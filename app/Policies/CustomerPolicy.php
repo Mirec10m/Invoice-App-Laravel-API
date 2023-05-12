@@ -18,7 +18,7 @@ class CustomerPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
         return $user->id === Auth::user()->id;
     }
@@ -30,7 +30,7 @@ class CustomerPolicy
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Customer $customer)
+    public function view(User $user, Customer $customer): Response
     {
         return $user->id === $customer->user_id ? Response::allow() : Response::denyAsNotFound();
     }
@@ -41,9 +41,9 @@ class CustomerPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
-        return true;
+        return $user->id === Auth::user()->id;
     }
 
     /**
@@ -53,7 +53,7 @@ class CustomerPolicy
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Customer $customer)
+    public function update(User $user, Customer $customer): Response
     {
         return $user->id === $customer->user_id ? Response::allow() : Response::denyAsNotFound();
     }
@@ -65,7 +65,7 @@ class CustomerPolicy
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Customer $customer)
+    public function delete(User $user, Customer $customer): Response
     {
         return $user->id === $customer->user_id ? Response::allow() : Response::denyAsNotFound();
     }

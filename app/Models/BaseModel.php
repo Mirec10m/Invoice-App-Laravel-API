@@ -7,27 +7,27 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
 {
-    public function getFormattedCreatedAtAttribute()
+    public function getFormattedCreatedAtAttribute(): ?string
     {
         return $this->format_date($this->created_at);
     }
 
-    public function getFormattedUpdatedAtAttribute()
+    public function getFormattedUpdatedAtAttribute(): ?string
     {
         return $this->format_date($this->created_at);
     }
 
-    protected function format_price($price)
+    protected function format_price($price): ?string
     {
         return $price ? number_format($price, 2, ',', ' ') : null;
     }
 
-    protected function format_date($date)
+    protected function format_date($date): ?string
     {
         return $date ? Carbon::parse($date)->format('d. m. Y') : null;
     }
 
-    protected function format_date_time($date)
+    protected function format_date_time($date): ?string
     {
         return $date ? Carbon::parse($date)->format('d. m. Y H:i:s') : null;
     }

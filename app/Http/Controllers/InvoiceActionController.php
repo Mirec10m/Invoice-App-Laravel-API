@@ -19,7 +19,7 @@ class InvoiceActionController extends Controller
         $this->invoiceService = $invoiceService;
     }
 
-    public function last_invoice()
+    public function last_invoice(): Response
     {
         $invoice = Invoice::where('user_id', Auth::user()->id)->get()->last();
 
@@ -28,7 +28,7 @@ class InvoiceActionController extends Controller
             : response(null, Response::HTTP_OK);
     }
 
-    public function invoices_sum()
+    public function invoices_sum(): Response
     {
         $invoices = Invoice::where('user_id', Auth::user()->id)->with(['customer']);
 
@@ -39,7 +39,7 @@ class InvoiceActionController extends Controller
         return response($sum, Response::HTTP_OK);
     }
 
-    public function invoices_pdf(Invoice $invoice)
+    public function invoices_pdf(Invoice $invoice): Response
     {
         $pdf = Pdf::loadView('pdf.invoice', ['invoice' => $invoice->load('customer')]);
 

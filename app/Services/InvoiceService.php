@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\Auth;
 
 class InvoiceService
 {
-    public function assign_to_current_user(Invoice $invoice)
+    public function assign_to_current_user(Invoice $invoice): void
     {
         $invoice->user()->associate(Auth::user()->id)->save();
     }
 
-    public function assign_to_customer(Invoice $invoice, Request $request)
+    public function assign_to_customer(Invoice $invoice, Request $request): void
     {
         if($id = $request->customer_id){
             $invoice->customer()->associate($id)->save();

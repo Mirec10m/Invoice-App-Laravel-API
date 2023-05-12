@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    public function user()
+    public function user(): Response
     {
         $response = auth()->hasUser() ? new UserResource(auth()->user()) : null;
 
